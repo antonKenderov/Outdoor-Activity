@@ -1,4 +1,4 @@
-package com.outdoor.activity.web;
+package com.outdoor.activity.controllers;
 
 import java.time.Instant;
 import java.util.Map;

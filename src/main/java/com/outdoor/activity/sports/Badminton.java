@@ -1,6 +1,7 @@
-package com.outdoor.activity.models;
+package com.outdoor.activity.sports;
 
 import com.outdoor.activity.interfaces.Sport;
+import com.outdoor.activity.models.ForecastInfo;
 
 import java.util.ArrayList;
 import java.util.List;
