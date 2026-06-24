@@ -18,7 +18,7 @@ public final class ForecastFormatter {
     private ForecastFormatter() {
     }
 
-    public static List<DailyForecast> format(List<String> hours) {
+    public static List<DailyForecast> format(List<String> hours, int minDurationHours) {
         if (hours == null || hours.isEmpty()) {
             return new ArrayList<>();
         }
@@ -34,13 +34,13 @@ public final class ForecastFormatter {
         List<DailyForecast> result = new ArrayList<>();
         for (Map.Entry<LocalDate, List<Integer>> entry : hoursByDate.entrySet()) {
             String date = entry.getKey().toString();
-            List<String> ranges = toRanges(entry.getValue());
+            List<String> ranges = toRanges(entry.getValue(), minDurationHours);
             result.add(new DailyForecast(date, ranges));
         }
         return result;
     }
 
-    private static List<String> toRanges(List<Integer> hours) {
+    private static List<String> toRanges(List<Integer> hours, int minDurationHours) {
         List<Integer> sorted = hours.stream().distinct().sorted().toList();
 
         List<String> ranges = new ArrayList<>();
@@ -52,12 +52,16 @@ public final class ForecastFormatter {
             if (current == previous + 1) {
                 previous = current;
             } else {
-                ranges.add(formatRange(start, previous));
+                if (previous - start + 1 >= minDurationHours) {
+                    ranges.add(formatRange(start, previous));
+                }
                 start = current;
                 previous = current;
             }
         }
-        ranges.add(formatRange(start, previous));
+        if (previous - start + 1 >= minDurationHours) {
+            ranges.add(formatRange(start, previous));
+        }
         return ranges;
     }
 

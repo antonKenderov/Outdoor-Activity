@@ -1,9 +1,19 @@
 package com.outdoor.activity.services;
 
-import com.outdoor.activity.models.WeatherResponse;
+import com.outdoor.activity.models.DailyForecast;
 import com.outdoor.activity.models.ForecastInfo;
+import com.outdoor.activity.models.SportConfig;
+import com.outdoor.activity.models.WeatherResponse;
+import com.outdoor.activity.utils.ForecastFormatter;
+import com.outdoor.activity.utils.SportEvaluator;
+import com.outdoor.activity.utils.SportsParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class WeatherService {
@@ -17,6 +27,12 @@ public class WeatherService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    @Autowired
+    private SportsParser sportsParser;
+
+    @Autowired
+    private SportEvaluator sportEvaluator;
+
     public ForecastInfo getForecast(double latitude, double longitude) {
         WeatherResponse response = restTemplate.getForObject(
                 URL,
@@ -25,5 +41,15 @@ public class WeatherService {
                 longitude
         );
         return response.getHourly();
+    }
+
+    public List<DailyForecast> getSuitableForecast(String sport, double latitude, double longitude) {
+        SportConfig config = sportsParser.getConfig(sport);
+        if (config == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown sport: " + sport);
+        }
+        ForecastInfo forecast = getForecast(latitude, longitude);
+        List<String> suitableHours = sportEvaluator.getSuitableHours(forecast, config);
+        return ForecastFormatter.format(suitableHours, config.getMinDurationHours());
     }
 }

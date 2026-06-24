@@ -6,6 +6,7 @@ public class SportConfig {
     private double maxTemperature;
     private double maxWindSpeed;
     private int maxRainProbability;
+    private int maxCloudCover;
     private boolean requiresDaylight;
     private int minDurationHours;
 
@@ -25,6 +26,9 @@ public class SportConfig {
 
     public int getMaxRainProbability() { return maxRainProbability; }
     public void setMaxRainProbability(int maxRainProbability) { this.maxRainProbability = maxRainProbability; }
+
+    public int getMaxCloudCover() { return maxCloudCover; }
+    public void setMaxCloudCover(int maxCloudCover) { this.maxCloudCover = maxCloudCover; }
 
     public boolean isRequiresDaylight() { return requiresDaylight; }
     public void setRequiresDaylight(boolean requiresDaylight) { this.requiresDaylight = requiresDaylight; }

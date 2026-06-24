@@ -6,6 +6,7 @@
       "maxTemperature": 30,
       "maxWindSpeed": 5,
       "maxRainProbability": 50,
+      "maxCloudCover": 50,
       "requiresDaylight": true,
       "minDurationHours": 2
     },
@@ -15,6 +16,7 @@
       "maxTemperature": 35,
       "maxWindSpeed": 10,
       "maxRainProbability": 70,
+      "maxCloudCover": 100,
       "requiresDaylight": true,
       "minDurationHours": 3
     }
