@@ -1,0 +1,22 @@
+{
+  "sports": [
+    {
+      "name": "badminton",
+      "minTemperature": 10,
+      "maxTemperature": 30,
+      "maxWindSpeed": 5,
+      "maxRainProbability": 50,
+      "requiresDaylight": true,
+      "minDurationHours": 2
+    },
+    {
+      "name": "football",
+      "minTemperature": 0,
+      "maxTemperature": 35,
+      "maxWindSpeed": 10,
+      "maxRainProbability": 70,
+      "requiresDaylight": true,
+      "minDurationHours": 3
+    }
+  ]
+}
