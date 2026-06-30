@@ -1,9 +1,6 @@
 package com.outdoor.activity.services;
 
-import com.outdoor.activity.models.DailyForecast;
-import com.outdoor.activity.models.ForecastInfo;
-import com.outdoor.activity.models.SportConfig;
-import com.outdoor.activity.models.WeatherResponse;
+import com.outdoor.activity.models.*;
 import com.outdoor.activity.utils.ForecastFormatter;
 import com.outdoor.activity.utils.SportEvaluator;
 import com.outdoor.activity.utils.SportsParser;
@@ -23,7 +20,8 @@ public class WeatherService {
             "&longitude={longitude}" +
             "&hourly=wind_gusts_10m,precipitation_probability,is_day,temperature_2m,cloud_cover" +
             "&timezone=Europe/Sofia" +
-            "&forecast_days=3";
+            "&wind_speed_unit=ms" +
+            "&forecast_days=16";
 
     private final RestTemplate restTemplate = new RestTemplate();
 
