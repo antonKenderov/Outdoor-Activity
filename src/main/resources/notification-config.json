@@ -1,0 +1,22 @@
+[
+  {
+    "sport": "badminton",
+    "weekendOnly": true,
+    "season": "summer",
+    "notifyBetween": {
+      "from": "10:00",
+      "to": "16:00"
+    },
+    "email": "user@example.com"
+  },
+  {
+    "sport": "football",
+    "weekendOnly": false,
+    "season": "summer",
+    "notifyBetween": {
+      "from": "20:00",
+      "to": "22:00"
+    },
+    "email": "user2@example.com"
+  }
+]
