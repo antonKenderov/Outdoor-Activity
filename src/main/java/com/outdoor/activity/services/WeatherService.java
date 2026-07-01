@@ -4,7 +4,6 @@ import com.outdoor.activity.models.*;
 import com.outdoor.activity.utils.ForecastFormatter;
 import com.outdoor.activity.utils.SportEvaluator;
 import com.outdoor.activity.utils.SportsParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,13 +18,14 @@ public class WeatherService {
     @Value("${weather.api.url}")
     private String URL;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     private final SportsParser sportsParser;
 
     private final SportEvaluator sportEvaluator;
 
-    public WeatherService(SportsParser sportsParser, SportEvaluator sportEvaluator) {
+    public WeatherService(RestTemplate restTemplate, SportsParser sportsParser, SportEvaluator sportEvaluator) {
+        this.restTemplate = restTemplate;
         this.sportsParser = sportsParser;
         this.sportEvaluator = sportEvaluator;
     }
