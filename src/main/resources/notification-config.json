@@ -3,7 +3,7 @@
     "sport": "badminton",
     "weekendOnly": true,
     "notifyBetween": {
-      "from": "10:00",
+      "from": "08:00",
       "to": "16:00"
     },
     "email": "anton.kenderov1@gmail.com"

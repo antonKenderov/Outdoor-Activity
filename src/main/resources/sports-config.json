@@ -17,7 +17,7 @@
       "maxWindSpeed": 10,
       "maxRainProbability": 70,
       "maxCloudCover": 100,
-      "requiresDaylight": true,
+      "requiresDaylight": false,
       "minDurationHours": 3
     }
   ]
