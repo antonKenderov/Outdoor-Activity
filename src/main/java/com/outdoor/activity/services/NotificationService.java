@@ -61,15 +61,16 @@ public class NotificationService {
 
         for (DailyForecast forecast : matching) {
             datesHtml.append("""
-            <div style="background: #f8fafc; border: 0.5px solid #e2e8f0; border-radius: 8px; padding: 0.875rem 1rem; display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <div>
-                  <p style="font-size: 14px; font-weight: 500; color: #1e293b; margin: 0;">%s</p>
-                  <p style="font-size: 12px; color: #64748b; margin: 2px 0 0;">%s</p>
-                </div>
-              </div>
-              <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px;">Подходящо</span>
-            </div>
+            <table role="presentation" width="100%%" cellpadding="0" cellspacing="0" style="background: #f8fafc; border: 0.5px solid #e2e8f0; border-radius: 8px; margin-bottom: 8px;">
+              <tr>
+                <td style="padding: 0.875rem 1rem; font-size: 14px; font-weight: 500; color: #1e293b;">%s
+                  <div style="font-size: 12px; font-weight: normal; color: #64748b; margin-top: 2px;">%s</div>
+                </td>
+                <td align="right" style="padding: 0.875rem 1rem;">
+                  <span style="background: #dcfce7; color: #166534; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px; white-space: nowrap;">Подходящо</span>
+                </td>
+              </tr>
+            </table>
             """.formatted(forecast.getDate(), forecast.getHours()));
         }
 
@@ -82,16 +83,14 @@ public class NotificationService {
             </div>
 
             <div style="padding: 1.5rem;">
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 1.5rem;">
-                <div style="background: #dcfce7; border: 0.5px solid #bbf7d0; border-radius: 8px; padding: 1rem; text-align: center;">
-                  <p style="font-size: 12px; color: #166534; margin: 4px 0 2px;">Спорт</p>
-                  <p style="font-size: 15px; font-weight: 500; color: #166534; margin: 0;">%s</p>
-                </div>
+              <div style="background: #dcfce7; border: 0.5px solid #bbf7d0; border-radius: 8px; padding: 1rem; text-align: center; margin-bottom: 1.5rem;">
+                <p style="font-size: 12px; color: #166534; margin: 4px 0 2px;">Спорт</p>
+                <p style="font-size: 15px; font-weight: 500; color: #166534; margin: 0;">%s</p>
               </div>
 
               <p style="font-size: 13px; font-weight: 500; color: #64748b; margin: 0 0 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Подходящи дати</p>
 
-              <div style="display: flex; flex-direction: column; margin-bottom: 1.5rem;">
+              <div style="margin-bottom: 1.5rem;">
                 %s
               </div>
 
