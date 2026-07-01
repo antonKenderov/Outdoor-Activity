@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-//Може да се промени
 @Component
 public class SportEvaluator {
     private static final DateTimeFormatter WINDOW_TIME =
