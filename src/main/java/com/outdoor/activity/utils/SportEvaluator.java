@@ -2,17 +2,18 @@ package com.outdoor.activity.utils;
 
 import com.outdoor.activity.models.DailyForecast;
 import com.outdoor.activity.models.ForecastInfo;
+import com.outdoor.activity.models.HourlyWeather;
 import com.outdoor.activity.models.NotificationConfig;
 import com.outdoor.activity.models.SportConfig;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 //Може да се промени
 @Component
@@ -27,25 +28,22 @@ public class SportEvaluator {
     }
 
     public List<String> getSuitableHours(ForecastInfo info, SportConfig config) {
+        List<Predicate<HourlyWeather>> criteria = SportCriteria.forConfig(config);
         List<String> suitableHours = new ArrayList<>();
 
-       for (int i = 0; i < info.getTime().size(); i++) {
-                double temperature = info.getTemperature_2m().get(i);
-                double windGusts = info.getWind_gusts_10m().get(i);
-                int precipitation = info.getPrecipitation_probability().get(i);
-                int cloudCover = info.getCloud_cover().get(i);
-                boolean isDay = info.getIsDay().get(i) == 1;
+        for (int i = 0; i < info.time().size(); i++) {
+            HourlyWeather hour = new HourlyWeather(
+                    info.time().get(i),
+                    info.temperature_2m().get(i),
+                    info.wind_gusts_10m().get(i),
+                    info.precipitation_probability().get(i),
+                    info.cloud_cover().get(i),
+                    info.is_day().get(i) == 1
+            );
 
-                boolean conditionsMet =
-                        temperature >= config.getMinTemperature() &&
-                                temperature <= config.getMaxTemperature() &&
-                                windGusts <= config.getMaxWindSpeed() &&
-                            precipitation < config.getMaxRainProbability() &&
-                            cloudCover < config.getMaxCloudCover() &&
-                            (!config.isRequiresDaylight() || isDay);
-
+            boolean conditionsMet = criteria.stream().allMatch(criterion -> criterion.test(hour));
             if (conditionsMet) {
-                suitableHours.add(info.getTime().get(i));
+                suitableHours.add(hour.time());
             }
         }
 
