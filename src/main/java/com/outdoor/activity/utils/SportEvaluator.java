@@ -20,6 +20,12 @@ public class SportEvaluator {
     private static final DateTimeFormatter WINDOW_TIME =
             DateTimeFormatter.ofPattern("HH:mm");
 
+    private final SportsParser sportsParser;
+
+    public SportEvaluator(SportsParser sportsParser) {
+        this.sportsParser = sportsParser;
+    }
+
     public List<String> getSuitableHours(ForecastInfo info, SportConfig config) {
         List<String> suitableHours = new ArrayList<>();
 
@@ -49,6 +55,7 @@ public class SportEvaluator {
     public List<DailyForecast> filterByNotificationCriteria(List<DailyForecast> forecasts, NotificationConfig config) {
         LocalTime from = LocalTime.parse(config.getNotifyBetween().from(), WINDOW_TIME);
         LocalTime to = LocalTime.parse(config.getNotifyBetween().to(), WINDOW_TIME);
+        int minDurationHours = sportsParser.getConfig(config.getSport()).getMinDurationHours();
 
         List<DailyForecast> filteredForecasts = new ArrayList<>();
 
@@ -72,7 +79,7 @@ public class SportEvaluator {
                 int overlapStart = Math.max(rangeStart, fromHour);
                 int overlapEnd = Math.min(rangeEnd, toHour);
 
-                if (overlapStart <= overlapEnd) {
+                if (overlapStart <= overlapEnd && (overlapEnd - overlapStart + 1) >= minDurationHours) {
                     matchingHours.add(String.format("%02d-%02d", overlapStart, overlapEnd));
                 }
             }
