@@ -17,7 +17,7 @@ import java.util.List;
 public class WeatherService {
 
     @Value("${weather.api.url}")
-    private static String URL;
+    private String URL;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
