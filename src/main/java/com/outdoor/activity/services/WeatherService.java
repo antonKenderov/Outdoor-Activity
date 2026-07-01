@@ -5,6 +5,7 @@ import com.outdoor.activity.utils.ForecastFormatter;
 import com.outdoor.activity.utils.SportEvaluator;
 import com.outdoor.activity.utils.SportsParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,21 +16,19 @@ import java.util.List;
 @Service
 public class WeatherService {
 
-    private static final String URL = "https://api.open-meteo.com/v1/forecast" +
-            "?latitude={latitude}" +
-            "&longitude={longitude}" +
-            "&hourly=wind_gusts_10m,precipitation_probability,is_day,temperature_2m,cloud_cover" +
-            "&timezone=Europe/Sofia" +
-            "&wind_speed_unit=ms" +
-            "&forecast_days=16";
+    @Value("${weather.api.url}")
+    private static String URL;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    private SportsParser sportsParser;
+    private final SportsParser sportsParser;
 
-    @Autowired
-    private SportEvaluator sportEvaluator;
+    private final SportEvaluator sportEvaluator;
+
+    public WeatherService(SportsParser sportsParser, SportEvaluator sportEvaluator) {
+        this.sportsParser = sportsParser;
+        this.sportEvaluator = sportEvaluator;
+    }
 
     public ForecastInfo getForecast(double latitude, double longitude) {
         WeatherResponse response = restTemplate.getForObject(
