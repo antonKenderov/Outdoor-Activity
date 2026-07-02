@@ -41,22 +41,6 @@ java -jar target/outdoor-activity-0.0.1-SNAPSHOT.jar
 
 Всички са в `src/main/resources/`.
 
-### `application.properties`
-Основна, несекретна конфигурация (проверявана в git).
-
-| Поле | Описание |
-|---|---|
-| `spring.application.name` | Име на приложението |
-| `spring.profiles.active` | Активен Spring профил (`local`) |
-| `server.port` | Порт, на който слуша приложението (по подр. `8080`) |
-| `spring.mail.host` / `spring.mail.port` | SMTP сървър (Gmail: `smtp.gmail.com:587`) |
-| `spring.mail.properties.mail.smtp.auth` | Дали SMTP изисква автентикация |
-| `spring.mail.properties.mail.smtp.starttls.enable` | Включва STARTTLS за SMTP |
-| `management.endpoints.web.exposure.include` | Кои Actuator endpoint-и са изложени (`health,info`) |
-| `management.endpoint.health.show-details` | Кога да се показват детайли за health (`when_authorized`) |
-| `notification.latitude` / `notification.longitude` | Координати, за които се следи прогнозата |
-| `notification.check-interval-ms` | На колко ms се проверява прогнозата (по подр. 21600000 = 6 часа) |
-
 ### `application-local.properties` (профил `local`, **съдържа тайни, не се качва в git**)
 
 | Поле | Описание |
@@ -88,17 +72,6 @@ java -jar target/outdoor-activity-0.0.1-SNAPSHOT.jar
 | `notifyBetween.from` / `notifyBetween.to` | Часови диапазон за известяване, формат `HH:mm` |
 | `email` | Имейл адрес на получателя |
 
-### `credentials.json` (Google OAuth Client Secret, **съдържа тайни, не се качва в git**)
-Изтегля се от Google Cloud Console (APIs & Services → Credentials → OAuth client ID → тип "Desktop app").
-
-| Поле | Описание |
-|---|---|
-| `installed.client_id` | OAuth Client ID |
-| `installed.project_id` | Google Cloud project ID |
-| `installed.auth_uri` / `installed.token_uri` | Google OAuth endpoint-и |
-| `installed.client_secret` | OAuth Client Secret |
-| `installed.redirect_uris` | Разрешени redirect URI (`http://localhost` за desktop flow) |
-
 ## Какво трябва да се добави/настрои, за да работи без проблем
 
 1. **`src/main/resources/application-local.properties`** — създай файла (ако липсва) и попълни:
@@ -113,8 +86,3 @@ java -jar target/outdoor-activity-0.0.1-SNAPSHOT.jar
 
 > ⚠️ И двата файла `application-local.properties` и `credentials.json` съдържат тайни (SMTP парола, OAuth client secret) и **не трябва да се качват в git**. Проверени са в `.gitignore`, но текущо `application-local.properties` е добавен като staged файл (`git add`) — провери и го извади от staging (`git restore --staged src/main/resources/application-local.properties`), за да не изтече паролата в историята на git-а.
 
-## Тестове
-
-```bash
-./mvnw test
-```
