@@ -52,17 +52,22 @@ public final class ForecastFormatter {
             if (current == previous + 1) {
                 previous = current;
             } else {
-                if (previous - start + 1 >= minDurationHours) {
-                    ranges.add(formatRange(start, previous));
-                }
+                addWindows(start, previous, minDurationHours, ranges);
                 start = current;
                 previous = current;
             }
         }
-        if (previous - start + 1 >= minDurationHours) {
-            ranges.add(formatRange(start, previous));
-        }
+        addWindows(start, previous, minDurationHours, ranges);
         return ranges;
+    }
+
+    private static void addWindows(int start, int end, int minDurationHours, List<String> ranges) {
+        int windowStart = start;
+        while (windowStart + minDurationHours - 1 <= end) {
+            int windowEnd = windowStart + minDurationHours - 1;
+            ranges.add(formatRange(windowStart, windowEnd));
+            windowStart = windowEnd + 1;
+        }
     }
 
     private static String formatRange(int start, int end) {

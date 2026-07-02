@@ -8,7 +8,7 @@
       "maxRainProbability": 50,
       "maxCloudCover": 50,
       "requiresDaylight": true,
-      "minDurationHours": 1
+      "minDurationHours": 2
     },
     {
       "name": "football",
