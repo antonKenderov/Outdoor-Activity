@@ -1,9 +1,11 @@
 package com.outdoor.activity.services;
 
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.EventReminder;
+import com.google.api.services.calendar.model.Events;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,10 @@ public class CalendarService {
     }
 
     public Event createEvent(String sport, LocalDateTime start, LocalDateTime end) throws IOException {
+        if (eventExists(sport, start, end)) {
+            return null;
+        }
+
         Event event = new Event()
                 .setSummary(sport)
                 .setDescription("Температура + прогноза");
@@ -47,5 +53,30 @@ public class CalendarService {
         event.setReminders(reminders);
 
         return calendarService.events().insert("primary", event).execute();
+    }
+
+    private boolean eventExists(String sport, LocalDateTime start, LocalDateTime end) throws IOException {
+        DateTime timeMin = new DateTime(
+                start.atZone(ZoneId.of("Europe/Sofia")).toInstant().toEpochMilli());
+        DateTime timeMax = new DateTime(
+                end.atZone(ZoneId.of("Europe/Sofia")).toInstant().toEpochMilli());
+
+        Events existingEvents = calendarService.events().list("primary")
+                .setTimeMin(timeMin)
+                .setTimeMax(timeMax)
+                .setSingleEvents(true)
+                .execute();
+
+        for (Event existing : existingEvents.getItems()) {
+            boolean sameSummary = sport.equals(existing.getSummary());
+            boolean sameStart = existing.getStart() != null
+                    && existing.getStart().getDateTime() != null
+                    && existing.getStart().getDateTime().getValue() == timeMin.getValue();
+
+            if (sameSummary && sameStart) {
+                return true;
+            }
+        }
+        return false;
     }
 }
